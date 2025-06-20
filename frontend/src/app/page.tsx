@@ -31,7 +31,7 @@ export default function Home() {
               <span>✔ Portfolio loaded successfully!</span>
             </AnimatedSpan>
             <TypingAnimation delay={5200} className="text-muted-foreground">
-              Welcome to my portfolio!
+              Welcome to Nemanja&apos;s portfolio!
             </TypingAnimation>
           </Terminal>
         </div>
