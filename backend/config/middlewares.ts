@@ -1,29 +1,11 @@
 export default [
   'strapi::logger',
   'strapi::errors',
-  {
-    name: 'strapi::helmet',
-    config: {
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", 'https://cdn.jsdelivr.net'],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", 'data:'],
-        },
-      },
-      frameguard: { action: 'deny' },
-      hsts: { maxAge: 31536000, includeSubDomains: true },
-      noSniff: true,
-      referrerPolicy: { policy: 'no-referrer-when-downgrade' },
-    },
-  },
   'strapi::security',
   {
     name: 'strapi::cors',
     config: {
-      enabled: true,
-      origin: ['https://your-portfolio.vercel.app'],
+      origin: [process.env.FRONTEND_URL],
       methods: ['GET', 'OPTIONS'],
       credentials: false,
       maxAge: 86400,
@@ -35,4 +17,5 @@ export default [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+  'global::rate-limit',
 ];
