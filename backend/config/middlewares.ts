@@ -1,10 +1,8 @@
-import helmet from 'koa-helmet';
-
 export default [
   'strapi::logger',
   'strapi::errors',
   {
-    name: 'global::helmet',
+    name: 'strapi::helmet',
     config: {
       contentSecurityPolicy: {
         directives: {
@@ -18,9 +16,6 @@ export default [
       hsts: { maxAge: 31536000, includeSubDomains: true },
       noSniff: true,
       referrerPolicy: { policy: 'no-referrer-when-downgrade' },
-    },
-    initialize: (app) => {
-      app.use(helmet());
     },
   },
   'strapi::security',
