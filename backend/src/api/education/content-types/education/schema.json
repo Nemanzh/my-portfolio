@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "educations",
+  "info": {
+    "singularName": "education",
+    "pluralName": "educations",
+    "displayName": "Education"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "school": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "degree": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "start": {
+      "type": "date",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "end": {
+      "type": "date",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "href": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "school_logo": {
+      "type": "media",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

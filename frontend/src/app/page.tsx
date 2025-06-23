@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import {
   Terminal,
@@ -7,6 +5,10 @@ import {
   AnimatedSpan,
 } from '@/components/magicui/terminal';
 import { DockDemo } from '@/components/dock-demo';
+
+import AboutMe from '@/components/about-me';
+import Skills from '@/components/skills';
+import EducationSection from '@/components/education';
 
 export default function Home() {
   return (
@@ -38,15 +40,7 @@ export default function Home() {
       </section>
 
       {/* About Me Section */}
-      <section id="about" className="max-w-2xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold mb-4">About Me</h2>
-        <p className="text-lg text-muted-foreground">
-          I&apos;m Nemanja Radulovic, a passionate software engineer
-          specializing in building modern web applications with React, Next.js,
-          and TypeScript. I love solving complex problems and creating
-          delightful user experiences.
-        </p>
-      </section>
+      <AboutMe />
 
       {/* Previous Work Section */}
       <section id="work" className="max-w-4xl mx-auto py-12 px-4">
@@ -69,31 +63,10 @@ export default function Home() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="max-w-2xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold mb-4">Education</h2>
-        <ul>
-          <li>
-            <div className="font-semibold">BSc in Computer Science</div>
-            <div className="text-muted-foreground">
-              University Name, 2018 - 2022
-            </div>
-          </li>
-          {/* Add more education as needed */}
-        </ul>
-      </section>
+      <EducationSection />
 
       {/* Skills & Expertise Section */}
-      <section id="skills" className="max-w-4xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold mb-4">Skills & Expertise</h2>
-        <div className="flex flex-wrap gap-4">
-          <span className="px-4 py-2 bg-muted rounded-full">React</span>
-          <span className="px-4 py-2 bg-muted rounded-full">Next.js</span>
-          <span className="px-4 py-2 bg-muted rounded-full">TypeScript</span>
-          <span className="px-4 py-2 bg-muted rounded-full">Node.js</span>
-          <span className="px-4 py-2 bg-muted rounded-full">Tailwind CSS</span>
-          {/* Add more skills as needed */}
-        </div>
-      </section>
+      <Skills />
 
       {/* Fixed Dock at the bottom */}
       <div className="fixed bottom-0 left-0 w-full z-50 mb-5">

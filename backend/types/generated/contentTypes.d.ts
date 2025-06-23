@@ -456,6 +456,75 @@ export interface ApiContactLinkContactLink extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEducationEducation extends Struct.CollectionTypeSchema {
+  collectionName: 'educations';
+  info: {
+    displayName: 'Education';
+    pluralName: 'educations';
+    singularName: 'education';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    degree: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    end: Schema.Attribute.Date &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    href: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::education.education'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    school: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    school_logo: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    start: Schema.Attribute.Date &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiExperienceExperience extends Struct.CollectionTypeSchema {
   collectionName: 'experiences';
   info: {
@@ -711,6 +780,18 @@ export interface ApiSkillSkill extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::skill.skill'>;
     name: Schema.Attribute.String &
@@ -1237,6 +1318,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::about.about': ApiAboutAbout;
       'api::contact-link.contact-link': ApiContactLinkContactLink;
+      'api::education.education': ApiEducationEducation;
       'api::experience.experience': ApiExperienceExperience;
       'api::hackathon.hackathon': ApiHackathonHackathon;
       'api::hero.hero': ApiHeroHero;
