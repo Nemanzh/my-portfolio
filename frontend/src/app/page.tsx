@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen pb-32 bg-background">
       {/* Terminal Intro Section */}
-      <section className="w-full flex flex-col items-center justify-center py-16 bg-gradient-to-b from-muted/50 to-transparent">
+      <section id="terminal" className="max-w-3xl mx-auto py-12 px-4">
         <div className="relative w-full max-w-2xl">
           <Terminal>
             <TypingAnimation className="text-black-500">
