@@ -1,3 +1,4 @@
+import { About } from '@/types/about';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -29,3 +30,27 @@ export const formatDate = (dateString: string | Date): string => {
     return dateString.toString();
   }
 };
+
+// Helper function to extract just the text content from About body
+export function extractAboutText(about: About | null): string {
+  if (!about?.body) return '';
+
+  return about.body
+    .map((block) => block.children.map((child) => child.text).join(''))
+    .join('\n\n')
+    .trim();
+}
+
+// Helper function to format About content for display
+export function formatAboutContent(about: About | null): string[] {
+  if (!about?.body) return [];
+
+  return about.body
+    .map((block) =>
+      block.children
+        .map((child) => child.text)
+        .join('')
+        .trim()
+    )
+    .filter((text) => text.length > 0);
+}
