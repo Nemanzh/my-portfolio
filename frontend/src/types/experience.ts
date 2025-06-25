@@ -1,4 +1,12 @@
-export interface Logo {
+// types/experience.ts
+interface RichTextNode {
+  type: string;
+  format?: string;
+  children?: RichTextNode[];
+  text?: string;
+}
+
+export interface CompanyLogo {
   id: number;
   documentId: string;
   name: string;
@@ -34,12 +42,13 @@ export interface Logo {
   locale: string | null;
 }
 
-export interface Education {
-  school: string;
-  degree: string;
-  start: Date | string;
-  end: Date | string;
-  school_logo: Logo;
-  href?: string;
+export interface Experience {
+  company: string;
+  role: string;
+  start_date: Date | string;
+  end_date: Date | string;
+  description: string | RichTextNode[]; // Support both string and rich text
+  link?: string;
+  company_logo?: CompanyLogo;
   order_number: number;
 }

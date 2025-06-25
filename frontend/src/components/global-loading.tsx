@@ -1,4 +1,3 @@
-// components/GlobalLoading.tsx
 'use client';
 
 import { useApiLoading } from '@/hooks/useApiLoading';

@@ -69,6 +69,14 @@
         "videos",
         "audios"
       ]
+    },
+    "order_number": {
+      "type": "integer",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

@@ -1,71 +1,194 @@
+// components/skills.tsx
 import { getSkills } from '@/lib/api';
 import type { Skill } from '@/types/skill';
-import { Marquee } from '@/components/magicui/marquee';
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@/components/ui/tooltip';
-
-const SkillFigure = ({ skill }: { skill: Skill }) => (
-  <Tooltip>
-    <TooltipTrigger asChild>
-      <figure
-        className={cn(
-          'group relative flex items-center gap-2 px-4 py-2 bg-muted rounded-xl border shadow min-w-[120px] mx-2 transition-all duration-300',
-          'border-gray-950/[.1] dark:border-gray-50/[.1]'
-        )}
-      >
-        {skill.icon && skill.icon.url && (
-          <Image
-            src={
-              skill.icon.url.startsWith('http')
-                ? skill.icon.url
-                : `${process.env.NEXT_PUBLIC_API_URL}${skill.icon.url}`
-            }
-            alt={skill.icon.name}
-            width={28}
-            height={28}
-            className="w-7 h-7 object-contain"
-          />
-        )}
-        <figcaption className="text-sm font-semibold">{skill.name}</figcaption>
-      </figure>
-    </TooltipTrigger>
-    <TooltipContent>
-      <div className="text-xs">
-        {skill.description || 'No description available.'}
-      </div>
-    </TooltipContent>
-  </Tooltip>
-);
+import { SkillsCategory } from '@/components/skills-category';
+import { SectionHeader } from '@/components/section-header';
 
 export default async function Skills() {
   const skills: Skill[] = await getSkills();
 
-  const half = Math.ceil(skills.length / 2);
-  const firstRow = skills.slice(0, half);
-  const secondRow = skills.slice(half);
+  // Categorize skills based on skill names
+  const categories = {
+    Frontend: skills.filter((skill) =>
+      [
+        'React',
+        'Next.js',
+        'TypeScript',
+        'JavaScript',
+        'HTML',
+        'CSS',
+        'Tailwind',
+        'Vue',
+        'Angular',
+        'Svelte',
+        'Sass',
+        'SCSS',
+        'Bootstrap',
+        'Webpack',
+        'Vite',
+      ].some((tech) => skill.name.toLowerCase().includes(tech.toLowerCase()))
+    ),
+
+    Backend: skills.filter((skill) =>
+      [
+        'Node.js',
+        'Python',
+        'PHP',
+        'Java',
+        'C#',
+        'Database',
+        'API',
+        'Express',
+        'Django',
+        'Laravel',
+        'Spring',
+        'MongoDB',
+        'PostgreSQL',
+        'MySQL',
+        'Redis',
+        'Firebase',
+        'Supabase',
+        'GraphQL',
+        'REST',
+        'Docker',
+        'Kubernetes',
+      ].some((tech) => skill.name.toLowerCase().includes(tech.toLowerCase()))
+    ),
+
+    'Tools & DevOps': skills.filter((skill) =>
+      [
+        'Git',
+        'GitHub',
+        'GitLab',
+        'VS Code',
+        'Docker',
+        'AWS',
+        'Azure',
+        'Vercel',
+        'Netlify',
+        'Figma',
+        'Photoshop',
+        'Illustrator',
+        'Postman',
+        'Insomnia',
+        'Terminal',
+        'Linux',
+        'macOS',
+        'Windows',
+        'CI/CD',
+        'Jenkins',
+        'GitHub Actions',
+      ].some((tech) => skill.name.toLowerCase().includes(tech.toLowerCase()))
+    ),
+
+    'Mobile & Other': skills.filter(
+      (skill) =>
+        ![
+          'React',
+          'Next.js',
+          'TypeScript',
+          'JavaScript',
+          'HTML',
+          'CSS',
+          'Tailwind',
+          'Vue',
+          'Angular',
+          'Svelte',
+          'Sass',
+          'SCSS',
+          'Bootstrap',
+          'Webpack',
+          'Vite',
+          'Node.js',
+          'Python',
+          'PHP',
+          'Java',
+          'C#',
+          'Database',
+          'API',
+          'Express',
+          'Django',
+          'Laravel',
+          'Spring',
+          'MongoDB',
+          'PostgreSQL',
+          'MySQL',
+          'Redis',
+          'Firebase',
+          'Supabase',
+          'GraphQL',
+          'REST',
+          'Docker',
+          'Kubernetes',
+          'Git',
+          'GitHub',
+          'GitLab',
+          'VS Code',
+          'AWS',
+          'Azure',
+          'Vercel',
+          'Netlify',
+          'Figma',
+          'Photoshop',
+          'Illustrator',
+          'Postman',
+          'Insomnia',
+          'Terminal',
+          'Linux',
+          'macOS',
+          'Windows',
+          'CI/CD',
+          'Jenkins',
+          'GitHub Actions',
+        ].some((tech) => skill.name.toLowerCase().includes(tech.toLowerCase()))
+    ),
+  };
+
+  // Filter out empty categories
+  const filteredCategories = Object.entries(categories).filter(
+    ([, categorySkills]) => categorySkills.length > 0
+  );
 
   return (
     <section id="skills" className="max-w-4xl mx-auto py-12 px-4">
-      <h2 className="text-3xl font-bold mb-8 text-center">Skills Marquee</h2>
-      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-        <Marquee pauseOnHover className="[--duration:20s]">
-          {firstRow.map((skill) => (
-            <SkillFigure key={skill.id} skill={skill} />
-          ))}
-        </Marquee>
-        <Marquee reverse pauseOnHover className="[--duration:20s]">
-          {secondRow.map((skill) => (
-            <SkillFigure key={skill.id} skill={skill} />
-          ))}
-        </Marquee>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+      <SectionHeader
+        title="Skills & Technologies"
+        subtitle="Technologies I love working with"
+      />
+
+      <div className="space-y-8">
+        {filteredCategories.map(([category, categorySkills], categoryIndex) => (
+          <SkillsCategory
+            key={category}
+            category={category}
+            skills={categorySkills}
+            categoryIndex={categoryIndex}
+          />
+        ))}
       </div>
+
+      {/* Fallback if no skills are found */}
+      {skills.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">
+            No skills available at the moment.
+          </p>
+        </div>
+      )}
+
+      {/* Show all skills if categorization doesn't work well */}
+      {filteredCategories.length === 0 && skills.length > 0 && (
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-primary">
+            All Skills
+          </h3>
+          <SkillsCategory
+            category="All Skills"
+            skills={skills}
+            categoryIndex={0}
+          />
+        </div>
+      )}
     </section>
   );
 }

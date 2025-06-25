@@ -498,6 +498,12 @@ export interface ApiEducationEducation extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::education.education'
     >;
+    order_number: Schema.Attribute.Integer &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     school: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
@@ -547,6 +553,14 @@ export interface ApiExperienceExperience extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    company_logo: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -573,6 +587,12 @@ export interface ApiExperienceExperience extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::experience.experience'
     >;
+    order_number: Schema.Attribute.Integer &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     role: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
@@ -581,67 +601,6 @@ export interface ApiExperienceExperience extends Struct.CollectionTypeSchema {
         };
       }>;
     start_date: Schema.Attribute.Date &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiHackathonHackathon extends Struct.CollectionTypeSchema {
-  collectionName: 'hackathons';
-  info: {
-    displayName: 'Hackathon';
-    pluralName: 'hackathons';
-    singularName: 'hackathon';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.Date &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    description: Schema.Attribute.Blocks &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    link: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::hackathon.hackathon'
-    >;
-    location: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1320,7 +1279,6 @@ declare module '@strapi/strapi' {
       'api::contact-link.contact-link': ApiContactLinkContactLink;
       'api::education.education': ApiEducationEducation;
       'api::experience.experience': ApiExperienceExperience;
-      'api::hackathon.hackathon': ApiHackathonHackathon;
       'api::hero.hero': ApiHeroHero;
       'api::project.project': ApiProjectProject;
       'api::skill.skill': ApiSkillSkill;

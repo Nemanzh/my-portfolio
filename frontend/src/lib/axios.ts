@@ -15,7 +15,6 @@ declare module 'axios' {
   }
 }
 
-// Create axios instance
 export const api = axios.create({
   baseURL,
   withCredentials: false,
@@ -152,5 +151,4 @@ export const checkApiHealth = async (): Promise<boolean> => {
   }
 };
 
-// Export the configured instance
 export default api;

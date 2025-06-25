@@ -1,7 +1,8 @@
 import { getEducation } from '@/lib/api';
 import type { Education } from '@/types/education';
-import { ResumeCard } from './resume-card';
 import { formatDate } from '@/lib/utils';
+import { SectionHeader } from '@/components/section-header';
+import { EducationCard } from '@/components/education-card';
 
 export default async function EducationSection() {
   const educationList: Education[] = await getEducation();
@@ -19,10 +20,10 @@ export default async function EducationSection() {
 
   return (
     <section id="education" className="max-w-3xl mx-auto py-12 px-4">
-      <h2 className="text-3xl font-bold mb-8">Education</h2>
+      <SectionHeader title="Education" subtitle="My academic background" />
       <div className="space-y-4">
         {educationList.map((education, id) => (
-          <ResumeCard
+          <EducationCard
             key={`${education.school}-${id}`}
             logoUrl={
               education.school_logo?.url
@@ -37,6 +38,7 @@ export default async function EducationSection() {
             period={`${formatDate(education.start)} - ${formatDate(
               education.end
             )}`}
+            href={education.href ? education.href : '#'}
           />
         ))}
       </div>

@@ -1,8 +1,8 @@
-// lib/api.ts (updated)
 import { api } from './axios';
 import type { Skill } from '@/types/skill';
 import type { Education } from '@/types/education';
 import type { About } from '@/types/about';
+import { Experience } from '@/types/experience';
 
 export async function getSkills(): Promise<Skill[]> {
   try {
@@ -10,14 +10,15 @@ export async function getSkills(): Promise<Skill[]> {
     return data?.data || [];
   } catch (error) {
     console.error('Failed to fetch Skills:', error);
-    // Return empty array instead of throwing
     return [];
   }
 }
 
 export async function getEducation(): Promise<Education[]> {
   try {
-    const { data } = await api.get('/api/educations?populate=school_logo');
+    const { data } = await api.get(
+      '/api/educations?populate=school_logo&sort=order_number:asc'
+    );
     return data?.data || [];
   } catch (error) {
     console.error('Failed to fetch Education:', error);
@@ -35,22 +36,35 @@ export async function getAbout(): Promise<About | null> {
   }
 }
 
-// New: Prefetch data for better performance
+export async function getExperience(): Promise<Experience[]> {
+  try {
+    const { data } = await api.get(
+      '/api/experiences?populate=company_logo&sort=order_number:asc'
+    );
+    return data?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch Experience:', error);
+    return [];
+  }
+}
+
 export async function prefetchAllData() {
   try {
-    const [skills, education, about] = await Promise.allSettled([
+    const [skills, education, about, experience] = await Promise.allSettled([
       getSkills(),
       getEducation(),
       getAbout(),
+      getExperience(),
     ]);
 
     return {
       skills: skills.status === 'fulfilled' ? skills.value : [],
       education: education.status === 'fulfilled' ? education.value : [],
       about: about.status === 'fulfilled' ? about.value : null,
+      experience: experience.status === 'fulfilled' ? experience.value : [],
     };
   } catch (error) {
     console.error('Failed to prefetch data:', error);
-    return { skills: [], education: [], about: null };
+    return { skills: [], education: [], about: null, experience: [] };
   }
 }
