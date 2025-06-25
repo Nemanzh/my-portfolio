@@ -1,20 +1,20 @@
-// components/hero-section.tsx
 'use client';
 
-import { motion } from 'framer-motion';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   ArrowDown,
   Download,
-  Github,
-  Linkedin,
-  Mail,
   MapPin,
+  Terminal,
+  Sparkles,
+  Code2,
+  Zap,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { parseAboutContent } from '@/lib/richtext-parser';
+import type { About } from '@/types/about';
 
 const TypewriterText = ({
   texts,
@@ -54,7 +54,7 @@ const TypewriterText = ({
   }, [displayText, isDeleting, currentIndex, texts, speed]);
 
   return (
-    <span className="text-primary">
+    <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
       {displayText}
       <motion.span
         animate={{ opacity: [1, 0] }}
@@ -67,196 +67,315 @@ const TypewriterText = ({
   );
 };
 
-export default function HeroSection() {
+const FloatingElement = ({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{
+      opacity: [0.2, 0.6, 0.2],
+      y: [0, -20, 0],
+      rotate: [0, 5, -5, 0],
+    }}
+    transition={{
+      duration: 8,
+      repeat: Infinity,
+      delay,
+      ease: 'easeInOut',
+    }}
+    className="absolute pointer-events-none"
+  >
+    {children}
+  </motion.div>
+);
+
+interface HeroSectionProps {
+  aboutData?: About | null;
+}
+
+export default function HeroSection({ aboutData }: HeroSectionProps) {
+  const [showCursor, setShowCursor] = useState(true);
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 300], [0, -50]);
+  const y2 = useTransform(scrollY, [0, 300], [0, -100]);
+
   const roles = [
     'Full Stack Developer',
     'React Specialist',
     'TypeScript Expert',
     'Problem Solver',
+    'UI/UX Enthusiast',
   ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 600);
+    return () => clearInterval(interval);
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const content = aboutData ? parseAboutContent(aboutData) : null;
+
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
-      {/* Background Animation */}
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center px-4 py-12 overflow-hidden"
+    >
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/98 to-background/95" />
+
+        <motion.div
+          style={{ y: y1 }}
+          className="absolute top-1/3 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse"
+        />
+        <motion.div
+          style={{ y: y2 }}
+          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-3xl animate-pulse delay-1000"
+        />
+
+        <FloatingElement delay={0}>
+          <div className="top-20 left-20 text-primary/10">
+            <Code2 size={24} />
+          </div>
+        </FloatingElement>
+        <FloatingElement delay={3}>
+          <div className="top-40 right-32 text-secondary/10">
+            <Zap size={20} />
+          </div>
+        </FloatingElement>
+        <FloatingElement delay={6}>
+          <div className="bottom-40 left-40 text-purple-500/10">
+            <Sparkles size={22} />
+          </div>
+        </FloatingElement>
       </div>
 
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Avatar */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <Avatar className="h-32 w-32 mx-auto border-4 border-primary/20 shadow-2xl">
-            <AvatarImage
-              src="/profile.jpg" // Replace with your actual image
-              alt="Nemanja Radulovic"
-              className="object-cover"
-            />
-            <AvatarFallback className="text-4xl font-bold bg-primary/10">
-              NR
-            </AvatarFallback>
-          </Avatar>
-        </motion.div>
-
-        {/* Main Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-6"
-        >
-          {/* Greeting */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-lg text-muted-foreground"
-          >
-            👋 Hello, Im
-          </motion.p>
-
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
-          >
-            Nemanja Radulovic
-          </motion.h1>
-
-          {/* Dynamic Role */}
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-xl md:text-2xl lg:text-3xl font-medium h-12 md:h-16"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="text-center lg:text-left space-y-8"
           >
-            Im a <TypewriterText texts={roles} speed={150} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <p className="text-xl md:text-2xl text-muted-foreground font-light mb-4">
+                👋 Hello, Im
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none">
+                <span className="block text-foreground">Nemanja</span>
+                <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  Radulovic
+                </span>
+              </h1>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="text-2xl md:text-3xl lg:text-4xl font-medium"
+            >
+              <TypewriterText texts={roles} speed={120} />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="space-y-4"
+            >
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0">
+                Passionate about creating{' '}
+                <span className="text-foreground font-semibold">
+                  amazing digital experiences
+                </span>{' '}
+                with modern technologies. I love building scalable applications
+                and solving complex problems.
+              </p>
+
+              {/* Location */}
+              <div className="flex items-center justify-center lg:justify-start gap-2 text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                <span>Belgrade, Serbia</span>
+              </div>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+            >
+              <Button
+                size="lg"
+                onClick={() => scrollToSection('experience')}
+                className="group relative overflow-hidden bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-white/20"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '100%' }}
+                  transition={{ duration: 0.6 }}
+                />
+                <span className="relative flex items-center gap-2">
+                  View My Work Experience
+                  <ArrowDown className="h-5 w-5 group-hover:translate-y-1 transition-transform" />
+                </span>
+              </Button>
+
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className="border-2 hover:bg-muted/50 px-8 py-6 text-lg rounded-xl transition-all duration-300"
+              >
+                <Link href="/resume.pdf" target="_blank">
+                  <Download className="mr-2 h-5 w-5" />
+                  Download CV
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-          >
-            Passionate about creating amazing digital experiences with modern
-            technologies. I love building scalable applications and solving
-            complex problems.
-          </motion.p>
-
-          {/* Location & Status */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            className="flex flex-wrap items-center justify-center gap-4"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+            className="relative"
           >
-            <Badge variant="secondary" className="text-sm px-3 py-1">
-              <MapPin className="h-3 w-3 mr-1" />
-              Belgrade, Serbia
-            </Badge>
-            <Badge
-              variant="outline"
-              className="text-sm px-3 py-1 border-green-500 text-green-600 dark:text-green-400"
-            >
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-              Available for work
-            </Badge>
-          </motion.div>
+            {content && (
+              <div className="bg-gray-950/95 backdrop-blur-xl border border-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="bg-gray-900/90 px-6 py-4 flex items-center gap-3 border-b border-gray-800">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors cursor-pointer"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors cursor-pointer"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors cursor-pointer"></div>
+                  </div>
+                  <div className="flex items-center gap-3 ml-4">
+                    <Terminal className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm text-gray-400 font-mono">
+                      about.md
+                    </span>
+                  </div>
+                </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            className="flex flex-wrap items-center justify-center gap-4 pt-4"
-          >
-            <Button
-              size="lg"
-              onClick={() => scrollToSection('about')}
-              className="group"
-            >
-              Get to know me
-              <ArrowDown className="ml-2 h-4 w-4 group-hover:translate-y-1 transition-transform" />
-            </Button>
+                <div className="p-6 font-mono text-sm space-y-4">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.2 }}
+                    className="text-green-400"
+                  >
+                    <span className="text-gray-500">$</span> cat about.md
+                  </motion.div>
 
-            <Button variant="outline" size="lg" asChild>
-              <Link href="/resume.pdf" target="_blank">
-                <Download className="mr-2 h-4 w-4" />
-                Download Resume
-              </Link>
-            </Button>
-          </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    transition={{ delay: 1.7, duration: 0.8 }}
+                    className="text-gray-300 leading-relaxed prose prose-sm prose-invert max-w-none"
+                  >
+                    {content}
+                  </motion.div>
 
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.5 }}
-            className="flex items-center justify-center gap-4 pt-6"
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              asChild
-              className="hover:text-primary"
-            >
-              <Link href="mailto:your.email@example.com">
-                <Mail className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              asChild
-              className="hover:text-primary"
-            >
-              <Link href="https://github.com/your-username" target="_blank">
-                <Github className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              asChild
-              className="hover:text-primary"
-            >
-              <Link href="https://linkedin.com/in/your-profile" target="_blank">
-                <Linkedin className="h-5 w-5" />
-              </Link>
-            </Button>
-          </motion.div>
-        </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2.5 }}
+                    className="space-y-2 pt-4 border-t border-gray-800"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-cyan-400">nemanja@dev</span>
+                      <span className="text-gray-500">~</span>
+                      <span className="text-green-400">$</span>
+                      <span className="text-white">ls skills/</span>
+                    </div>
+                    <div className="text-gray-300 ml-4 grid grid-cols-2 gap-2">
+                      {[
+                        'react.tsx',
+                        'typescript.ts',
+                        'node.js',
+                        'next.js',
+                        'mongodb.db',
+                        'tailwind.css',
+                      ].map((file, i) => (
+                        <motion.div
+                          key={file}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 3 + i * 0.1 }}
+                          className="text-cyan-300 text-xs"
+                        >
+                          {file}
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="cursor-pointer"
-            onClick={() => scrollToSection('about')}
-          >
-            <ArrowDown className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
+                  {/* Status Command */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 4 }}
+                    className="space-y-2"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-cyan-400">nemanja@dev</span>
+                      <span className="text-gray-500">~</span>
+                      <span className="text-green-400">$</span>
+                      <span className="text-white">whoami</span>
+                    </div>
+                    <div className="text-green-400 ml-4 text-sm">
+                      A developer who loves coffee and solving problems ☕
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 4.5 }}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-cyan-400">nemanja@dev</span>
+                    <span className="text-gray-500">~</span>
+                    <span className="text-green-400">$</span>
+                    {showCursor && (
+                      <motion.span
+                        animate={{ opacity: [1, 0] }}
+                        transition={{ duration: 0.8, repeat: Infinity }}
+                        className="bg-white text-black px-1"
+                      >
+                        _
+                      </motion.span>
+                    )}
+                  </motion.div>
+                </div>
+              </div>
+            )}
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

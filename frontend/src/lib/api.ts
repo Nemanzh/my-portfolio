@@ -3,6 +3,7 @@ import type { Skill } from '@/types/skill';
 import type { Education } from '@/types/education';
 import type { About } from '@/types/about';
 import { Experience } from '@/types/experience';
+import { Contact } from '@/types/contact';
 
 export async function getSkills(): Promise<Skill[]> {
   try {
@@ -48,20 +49,33 @@ export async function getExperience(): Promise<Experience[]> {
   }
 }
 
+export async function getContact(): Promise<Contact | null> {
+  try {
+    const { data } = await api.get('/api/contact');
+    return data?.data || null;
+  } catch (error) {
+    console.error('Failed to fetch About:', error);
+    return null;
+  }
+}
+
 export async function prefetchAllData() {
   try {
-    const [skills, education, about, experience] = await Promise.allSettled([
-      getSkills(),
-      getEducation(),
-      getAbout(),
-      getExperience(),
-    ]);
+    const [skills, education, about, experience, contact] =
+      await Promise.allSettled([
+        getSkills(),
+        getEducation(),
+        getAbout(),
+        getExperience(),
+        getContact(),
+      ]);
 
     return {
       skills: skills.status === 'fulfilled' ? skills.value : [],
       education: education.status === 'fulfilled' ? education.value : [],
       about: about.status === 'fulfilled' ? about.value : null,
       experience: experience.status === 'fulfilled' ? experience.value : [],
+      contact: contact.status === 'fulfilled' ? contact.value : null,
     };
   } catch (error) {
     console.error('Failed to prefetch data:', error);

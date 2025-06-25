@@ -1,4 +1,3 @@
-// lib/richtext-parser.ts
 import React from 'react';
 import type { JSX } from 'react';
 
@@ -12,16 +11,13 @@ interface RichTextNode {
   underline?: boolean;
   strikethrough?: boolean;
   code?: boolean;
-  level?: number; // for headings
+  level?: number;
 }
 
 export function parseRichTextToElements(
   richText: RichTextNode[] | string,
   className?: string
 ): React.ReactNode[] {
-  console.log('parseRichTextToElements input:', richText);
-
-  // If it's already a string, return as paragraph
   if (typeof richText === 'string') {
     return [
       React.createElement(
@@ -35,20 +31,16 @@ export function parseRichTextToElements(
     ];
   }
 
-  // If it's not an array, return empty array
   if (!Array.isArray(richText)) {
-    console.log('richText is not an array:', typeof richText);
     return [];
   }
 
   const elements = richText
     .map((node, index) => {
-      console.log(`Processing node ${index}:`, node);
       return parseNode(node, index, className);
     })
     .filter(Boolean) as React.ReactNode[];
 
-  console.log('Final parsed elements:', elements);
   return elements;
 }
 
@@ -57,8 +49,6 @@ function parseNode(
   index: number,
   className?: string
 ): React.ReactNode | null {
-  console.log(`parseNode - type: ${node.type}`, node);
-
   switch (node.type) {
     case 'paragraph':
       if (!node.children) return null;
@@ -101,12 +91,9 @@ function parseNode(
 
     case 'list':
       if (!node.children) return null;
-      console.log('Processing list with children:', node.children);
 
       const listItems = node.children
         .map((item, itemIndex) => {
-          console.log(`Processing list item ${itemIndex}:`, item);
-
           if (item.type === 'list-item' && item.children) {
             const itemContent = item.children
               .map((child, childIndex) => {
@@ -191,7 +178,6 @@ function parseNode(
       );
 
     default:
-      console.log(`Unknown node type: ${node.type}`);
       return null;
   }
 }
@@ -200,7 +186,6 @@ function parseInlineNode(node: RichTextNode, key: string): React.ReactNode {
   if (node.type === 'text' && node.text) {
     let element: React.ReactNode = node.text;
 
-    // Apply formatting
     if (node.bold) {
       element = React.createElement('strong', { key: `${key}-bold` }, element);
     }
@@ -233,16 +218,13 @@ function parseInlineNode(node: RichTextNode, key: string): React.ReactNode {
   return node.text || '';
 }
 
-// Keep your existing helper functions...
 export function parseRichTextToString(
   richText: RichTextNode[] | string
 ): string {
-  // If it's already a string, return it
   if (typeof richText === 'string') {
     return richText;
   }
 
-  // If it's not an array, return empty string
   if (!Array.isArray(richText)) {
     return '';
   }
