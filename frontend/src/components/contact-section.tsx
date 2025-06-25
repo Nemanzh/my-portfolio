@@ -32,7 +32,7 @@ export default function ContactSection({ contactData }: ContactSectionProps) {
   ];
 
   return (
-    <section id="contact" className="max-w-4xl mx-auto py-12 px-4">
+    <section id="contact" className="max-w-3xl mx-auto py-12 px-4">
       <SectionHeader
         title={contactData?.title || ''}
         subtitle={contactData?.subtitle}

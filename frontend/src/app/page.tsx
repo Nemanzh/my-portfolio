@@ -11,19 +11,14 @@ export default function Home() {
     <main className="relative min-h-screen pb-32 bg-background">
       {/* Combined Hero + About Section */}
       <HeroWithAbout />
-
       {/* Experience Section */}
       <ExperienceSection />
-
       {/* Education Section */}
       <EducationSection />
-
       {/* Skills & Expertise Section */}
       <Skills />
-
       {/* Contact Section */}
       <ContactWithData />
-
       {/* Fixed Dock at the bottom */}
       <div className="fixed bottom-0 left-0 w-full z-50 mb-5">
         <DockDemo />

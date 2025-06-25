@@ -150,7 +150,7 @@ export default async function Skills() {
   );
 
   return (
-    <section id="skills" className="max-w-4xl mx-auto py-12 px-4">
+    <section id="skills" className="max-w-3xl mx-auto py-12 px-4">
       <SectionHeader
         title="Skills & Technologies"
         subtitle="Technologies I love working with"

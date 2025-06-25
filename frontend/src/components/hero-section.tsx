@@ -128,7 +128,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-4 py-12 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden"
     >
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background/98 to-background/95" />
