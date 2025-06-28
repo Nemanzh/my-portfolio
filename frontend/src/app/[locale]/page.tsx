@@ -1,24 +1,29 @@
 import React from 'react';
+import { getLocale } from 'next-intl/server';
+import { prefetchAllData } from '@/lib/api';
 import { DockDemo } from '@/components/dock-demo';
 import Skills from '@/components/skills';
 import EducationSection from '@/components/education';
 import ExperienceSection from '@/components/experience';
-import HeroWithAbout from '@/components/hero-with-about';
-import ContactWithData from '@/components/contanct-with-data';
+import HeroSection from '@/components/hero-section';
+import ContactSection from '@/components/contact-section';
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getLocale();
+  const data = await prefetchAllData(locale);
+
   return (
     <main className="relative min-h-screen pb-32 bg-background">
       {/* Combined Hero + About Section */}
-      <HeroWithAbout />
+      <HeroSection aboutData={data?.about} />
       {/* Experience Section */}
-      <ExperienceSection />
+      <ExperienceSection experienceData={data?.experience} />
       {/* Education Section */}
-      <EducationSection />
+      <EducationSection educationData={data?.education} />
       {/* Skills & Expertise Section */}
-      <Skills />
+      <Skills skillsData={data?.skills} />
       {/* Contact Section */}
-      <ContactWithData />
+      <ContactSection contactData={data.contact} />
       {/* Fixed Dock at the bottom */}
       <div className="fixed bottom-0 left-0 w-full z-50 mb-5">
         <DockDemo />

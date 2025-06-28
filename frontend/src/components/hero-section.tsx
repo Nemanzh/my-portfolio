@@ -15,6 +15,7 @@ import {
 import Link from 'next/link';
 import { parseAboutContent } from '@/lib/richtext-parser';
 import type { About } from '@/types/about';
+import { useTranslations } from 'next-intl';
 
 const TypewriterText = ({
   texts,
@@ -98,17 +99,18 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ aboutData }: HeroSectionProps) {
+  const t = useTranslations('hero');
   const [showCursor, setShowCursor] = useState(true);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, -50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -100]);
 
   const roles = [
-    'Full Stack Developer',
-    'React Specialist',
-    'TypeScript Expert',
-    'Problem Solver',
-    'UI/UX Enthusiast',
+    t('roles.fullStack'),
+    t('roles.react'),
+    t('roles.typescript'),
+    t('roles.problemSolver'),
+    t('roles.uiux'),
   ];
 
   useEffect(() => {
@@ -173,7 +175,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
               transition={{ delay: 0.2 }}
             >
               <p className="text-xl md:text-2xl text-muted-foreground font-light mb-4">
-                👋 Hello, Im
+                {t('greeting')}
               </p>
             </motion.div>
 
@@ -183,9 +185,9 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
               transition={{ delay: 0.3, duration: 0.8 }}
             >
               <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none">
-                <span className="block text-foreground">Nemanja</span>
+                <span className="block text-foreground">{t('name')}</span>
                 <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Radulovic
+                  {t('surname')}
                 </span>
               </h1>
             </motion.div>
@@ -206,22 +208,19 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
               className="space-y-4"
             >
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Passionate about creating{' '}
+                {t('description')}
                 <span className="text-foreground font-semibold">
-                  amazing digital experiences
+                  {t('descriptionHighlight')}
                 </span>{' '}
-                with modern technologies. I love building scalable applications
-                and solving complex problems.
+                {t('descriptionContinue')}
               </p>
 
-              {/* Location */}
               <div className="flex items-center justify-center lg:justify-start gap-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>Belgrade, Serbia</span>
+                <span>{t('location')}</span>
               </div>
             </motion.div>
 
-            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -240,7 +239,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
                   transition={{ duration: 0.6 }}
                 />
                 <span className="relative flex items-center gap-2">
-                  View My Work Experience
+                  {t('viewWork')}
                   <ArrowDown className="h-5 w-5 group-hover:translate-y-1 transition-transform" />
                 </span>
               </Button>
@@ -253,7 +252,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
               >
                 <Link href="/resume.pdf" target="_blank">
                   <Download className="mr-2 h-5 w-5" />
-                  Download CV
+                  {t('downloadCV')}
                 </Link>
               </Button>
             </motion.div>
@@ -276,7 +275,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
                   <div className="flex items-center gap-3 ml-4">
                     <Terminal className="h-4 w-4 text-gray-400" />
                     <span className="text-sm text-gray-400 font-mono">
-                      about.md
+                      {t('terminal.aboutFile')}
                     </span>
                   </div>
                 </div>
@@ -288,7 +287,8 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
                     transition={{ delay: 1.2 }}
                     className="text-green-400"
                   >
-                    <span className="text-gray-500">$</span> cat about.md
+                    <span className="text-gray-500">$</span>{' '}
+                    {t('terminal.catCommand')}
                   </motion.div>
 
                   <motion.div
@@ -334,7 +334,6 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
                     </div>
                   </motion.div>
 
-                  {/* Status Command */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -348,7 +347,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
                       <span className="text-white">whoami</span>
                     </div>
                     <div className="text-green-400 ml-4 text-sm">
-                      A developer who loves coffee and solving problems ☕
+                      {t('terminal.whoamiResponse')}
                     </div>
                   </motion.div>
 

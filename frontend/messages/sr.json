@@ -1,0 +1,58 @@
+{
+  "navigation": {
+    "home": "Početna"
+  },
+  "common": {
+    "theme": "Tema",
+    "language": "Jezik"
+  },
+  "hero": {
+    "greeting": "👋 Zdravo, ja sam",
+    "name": "Nemanja",
+    "surname": "Radulovic",
+    "location": "Beograd, Srbija",
+    "description": "Strastveno kreiram",
+    "descriptionHighlight": "neverovatna digitalna iskustva",
+    "descriptionContinue": "sa modernim tehnologijama. Volim da gradim skalabilne aplikacije i rešavam složene probleme.",
+    "viewWork": "Pogledaj Moje Radno Iskustvo",
+    "downloadCV": "Preuzmi CV",
+    "roles": {
+      "fullStack": "Full Stack Developer",
+      "react": "React Specijalista",
+      "typescript": "TypeScript Ekspert",
+      "problemSolver": "Rešavam Probleme",
+      "uiux": "UI/UX Entuzijasta"
+    },
+    "terminal": {
+      "aboutFile": "o-meni.md",
+      "catCommand": "cat o-meni.md",
+      "lsCommand": "ls veštine/",
+      "whoamiCommand": "ko-sam-ja",
+      "whoamiResponse": "Developer koji voli kafu i rešavanje problema ☕"
+    }
+  },
+  "experience": {
+    "title": "Iskustvo",
+    "subtitle": "Moje profesionalno putovanje",
+    "noExperience": "Nema dostupnih informacija o iskustvu.",
+    "present": "Sadašnjost",
+    "visitWebsite": "Posetite veb sajt"
+  },
+  "experienceCard": {
+    "showDetails": "Pogledaj Detalje",
+    "hideDetails": "Sakrij Detalje",
+    "present": "Sada"
+  },
+  "education": {
+    "title": "Obrazovanje",
+    "subtitle": "Moja akademska pozadina",
+    "noEducation": "Nema dostupnih informacija o obrazovanju.",
+    "present": "Sadašnjost"
+  },
+  "skills": {
+    "title": "Veštine",
+    "subtitle": "Moja tehnička ekspertiza",
+    "allSkills": "Sve Veštine",
+    "noSkills": "Trenutno nema dostupnih veština."
+  }
+}

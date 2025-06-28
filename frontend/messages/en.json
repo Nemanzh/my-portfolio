@@ -1,0 +1,58 @@
+{
+  "navigation": {
+    "home": "Home"
+  },
+  "common": {
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "hero": {
+    "greeting": "👋 Hello, I'm",
+    "name": "Nemanja",
+    "surname": "Radulovic",
+    "location": "Belgrade, Serbia",
+    "description": "Passionate about creating",
+    "descriptionHighlight": "amazing digital experiences",
+    "descriptionContinue": "with modern technologies. I love building scalable applications and solving complex problems.",
+    "viewWork": "View My Work Experience",
+    "downloadCV": "Download CV",
+    "roles": {
+      "fullStack": "Full Stack Developer",
+      "react": "React Specialist",
+      "typescript": "TypeScript Expert",
+      "problemSolver": "Problem Solver",
+      "uiux": "UI/UX Enthusiast"
+    },
+    "terminal": {
+      "aboutFile": "about.md",
+      "catCommand": "cat about.md",
+      "lsCommand": "ls skills/",
+      "whoamiCommand": "whoami",
+      "whoamiResponse": "A developer who loves coffee and solving problems ☕"
+    }
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "My professional journey",
+    "noExperience": "No experience information available.",
+    "present": "Present",
+    "visitWebsite": "Visit Website"
+  },
+  "experienceCard": {
+    "showDetails": "Show Details",
+    "hideDetails": "Hide Details",
+    "present": "Present"
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "My academic background",
+    "noEducation": "No education information available.",
+    "present": "Present"
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "My technical expertise",
+    "allSkills": "All Skills",
+    "noSkills": "No skills available at the moment."
+  }
+}

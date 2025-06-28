@@ -35,6 +35,11 @@ export const SkillBadge = ({ skill }: SkillBadgeProps) => (
               width={20}
               height={20}
               className="w-5 h-5 object-contain"
+              // ✅ Add error handling
+              onError={(e) => {
+                console.error('Failed to load skill icon:', skill?.icon?.url);
+                e.currentTarget.style.display = 'none';
+              }}
             />
           )}
           <span>{skill.name}</span>

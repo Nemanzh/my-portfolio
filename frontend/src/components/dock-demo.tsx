@@ -1,3 +1,4 @@
+// src/components/dock-demo.tsx
 'use client';
 
 import {
@@ -9,8 +10,10 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 import { ModeToggle } from '@/components/mode-toggle';
+import { LanguageSwitcher } from '@/components/language-switcher'; // ✅ Import language switcher
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -31,30 +34,32 @@ const Icons = {
   github: (props: IconProps) => <Github {...props} />,
 };
 
-const DATA = {
-  navbar: [{ href: '/', icon: HomeIcon, label: 'Home' }],
-  contact: {
-    social: {
-      GitHub: {
-        name: 'GitHub',
-        url: 'https://github.com/Nemanzh',
-        icon: Icons.github,
-      },
-      LinkedIn: {
-        name: 'LinkedIn',
-        url: 'https://www.linkedin.com/in/nemanja-radulovi%C4%87/',
-        icon: Icons.linkedin,
-      },
-      email: {
-        name: 'Send Email',
-        url: 'mailto:nemanja.radulovic1990@gmail.com',
-        icon: Icons.email,
+export function DockDemo() {
+  const t = useTranslations('common'); // ✅ Add translations
+  const tNav = useTranslations('navigation'); // ✅ Add translations for navigation
+  const DATA = {
+    navbar: [{ href: '/', icon: HomeIcon, label: tNav('home') || 'Home' }],
+    contact: {
+      social: {
+        GitHub: {
+          name: 'GitHub',
+          url: 'https://github.com/Nemanzh',
+          icon: Icons.github,
+        },
+        LinkedIn: {
+          name: 'LinkedIn',
+          url: 'https://www.linkedin.com/in/nemanja-radulovi%C4%87/',
+          icon: Icons.linkedin,
+        },
+        email: {
+          name: 'Send Email',
+          url: 'mailto:nemanja.radulovic1990@gmail.com',
+          icon: Icons.email,
+        },
       },
     },
-  },
-};
+  };
 
-export function DockDemo() {
   return (
     <div className="flex flex-col items-center justify-center">
       <TooltipProvider>
@@ -100,19 +105,33 @@ export function DockDemo() {
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{name}</p>
+                  <p>{social.name}</p>
                 </TooltipContent>
               </Tooltip>
             </DockIcon>
           ))}
           <Separator orientation="vertical" className="h-full py-2" />
+
+          {/* ✅ Add Language Switcher */}
+          <DockIcon>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <LanguageSwitcher />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t('language')}</p>
+              </TooltipContent>
+            </Tooltip>
+          </DockIcon>
+
+          {/* Theme Toggle */}
           <DockIcon>
             <Tooltip>
               <TooltipTrigger asChild>
                 <ModeToggle />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Theme</p>
+                <p>{t('theme')}</p>
               </TooltipContent>
             </Tooltip>
           </DockIcon>

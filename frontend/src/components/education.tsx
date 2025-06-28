@@ -1,19 +1,23 @@
-import { getEducation } from '@/lib/api';
 import type { Education } from '@/types/education';
+import { getTranslations } from 'next-intl/server';
+import { SectionHeader } from './section-header';
+import { EducationCard } from './education-card';
 import { formatDate } from '@/lib/utils';
-import { SectionHeader } from '@/components/section-header';
-import { EducationCard } from '@/components/education-card';
 
-export default async function EducationSection() {
-  const educationList: Education[] = await getEducation();
+interface EducationSectionProps {
+  educationData?: Education[];
+}
 
-  if (!educationList || educationList.length === 0) {
+export default async function EducationSection({
+  educationData,
+}: EducationSectionProps) {
+  const t = await getTranslations('education');
+
+  if (!educationData || educationData.length === 0) {
     return (
-      <section id="education" className="max-w-3xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold mb-8">Education</h2>
-        <p className="text-muted-foreground">
-          No education information available.
-        </p>
+      <section className="py-12 px-4">
+        <h2 className="text-3xl font-bold mb-8">{t('title')}</h2>
+        <p className="text-muted-foreground">{t('noEducation')}</p>
       </section>
     );
   }
@@ -22,7 +26,7 @@ export default async function EducationSection() {
     <section id="education" className="max-w-3xl mx-auto py-12 px-4">
       <SectionHeader title="Education" subtitle="My academic background" />
       <div className="space-y-4">
-        {educationList.map((education, id) => (
+        {educationData?.map((education, id) => (
           <EducationCard
             key={`${education.school}-${id}`}
             logoUrl={
@@ -35,8 +39,18 @@ export default async function EducationSection() {
             altText={education.school}
             schoolName={education.school}
             degree={education.degree}
-            period={`${formatDate(education.start)} - ${formatDate(
-              education.end
+            period={`${formatDate(
+              typeof education.start === 'string'
+                ? education.start
+                : education.start
+                ? education.start.toISOString()
+                : ''
+            )} - ${formatDate(
+              typeof education.end === 'string'
+                ? education.end
+                : education.end
+                ? education.end.toISOString()
+                : ''
             )}`}
             href={education.href ? education.href : '#'}
           />

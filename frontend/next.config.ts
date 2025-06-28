@@ -1,20 +1,33 @@
+// frontend/next.config.ts
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-function getDomainFromEnv(url?: string) {
-  if (!url) return undefined;
-  try {
-    return new URL(url).hostname;
-  } catch {
-    return url.replace(/^https?:\/\//, '').split('/')[0];
-  }
-}
-
-const backendDomain = getDomainFromEnv(process.env.NEXT_PUBLIC_API_URL);
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   images: {
-    domains: backendDomain ? [backendDomain] : [],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: (process.env.NEXT_IMAGE_PROTOCOL || 'https') as
+          | 'http'
+          | 'https',
+        hostname: process.env.NEXT_HOST_NAME || '',
+        port: process.env.NEXT_HOST_PORT || '',
+        pathname: process.env.NEXT_PATHNAME || '/uploads/**',
+      },
+    ],
+    unoptimized: false,
+  },
+  output: 'standalone',
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
