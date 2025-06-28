@@ -10,10 +10,9 @@ interface SkillsProps {
 export default async function Skills({ skillsData }: SkillsProps) {
   const t = await getTranslations('skills');
 
-  // ✅ Use prop data instead of fetching
   if (!skillsData || skillsData.length === 0) {
     return (
-      <section className="py-12 px-4">
+      <section id="experience" className="max-w-3xl mx-auto py-12 px-4">
         <h2 className="text-3xl font-bold mb-8">{t('title')}</h2>
         <p className="text-muted-foreground">{t('noSkills')}</p>
       </section>

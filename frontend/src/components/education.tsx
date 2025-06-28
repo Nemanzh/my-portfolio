@@ -15,7 +15,7 @@ export default async function EducationSection({
 
   if (!educationData || educationData.length === 0) {
     return (
-      <section className="py-12 px-4">
+      <section id="experience" className="max-w-3xl mx-auto py-12 px-4">
         <h2 className="text-3xl font-bold mb-8">{t('title')}</h2>
         <p className="text-muted-foreground">{t('noEducation')}</p>
       </section>
