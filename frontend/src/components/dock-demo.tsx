@@ -13,7 +13,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 import { ModeToggle } from '@/components/mode-toggle';
-import { LanguageSwitcher } from '@/components/language-switcher'; // ✅ Import language switcher
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -35,10 +35,9 @@ const Icons = {
 };
 
 export function DockDemo() {
-  const t = useTranslations('common'); // ✅ Add translations
-  const tNav = useTranslations('navigation'); // ✅ Add translations for navigation
+  const t = useTranslations('general');
   const DATA = {
-    navbar: [{ href: '/', icon: HomeIcon, label: tNav('home') || 'Home' }],
+    navbar: [{ href: '/', icon: HomeIcon, label: t('home') }],
     contact: {
       social: {
         GitHub: {

@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { GlobalLoading } from '@/components/global-loading';
 import { Toaster } from 'sonner';
 import { NextIntlClientProvider } from 'next-intl';
+import { TestLoading } from '@/components/test-loading';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -65,6 +66,9 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
             <GlobalLoading />
+            {/* ✅ Test component (only in development) */}
+            {process.env.NODE_ENV === 'development' && <TestLoading />}
+
             <Toaster position="top-right" />
           </ThemeProvider>
         </NextIntlClientProvider>

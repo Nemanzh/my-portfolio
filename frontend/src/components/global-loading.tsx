@@ -1,21 +1,21 @@
 'use client';
 
-import { useApiLoading } from '@/hooks/useApiLoading';
-import { Loader2 } from 'lucide-react';
+import { useApiLoading } from '@/hooks/use-api-loading';
+import { LoaderCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-export const GlobalLoading = () => {
+export function GlobalLoading() {
+  const t = useTranslations('general');
   const isLoading = useApiLoading();
 
   if (!isLoading) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <div className="bg-background border rounded-lg p-3 shadow-lg">
-        <div className="flex items-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="text-sm">Loading...</span>
-        </div>
+    <div className="fixed top-4 right-4 z-[9999] pointer-events-none">
+      <div className="bg-primary/90 backdrop-blur-sm text-primary-foreground px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <LoaderCircle className="h-4 w-4 animate-spin" />
+        <span className="text-sm font-medium">{t('loading')}</span>
       </div>
     </div>
   );
-};
+}

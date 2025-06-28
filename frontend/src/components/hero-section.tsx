@@ -130,7 +130,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-4 py-4 overflow-hidden"
     >
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background/98 to-background/95" />
@@ -210,6 +210,7 @@ export default function HeroSection({ aboutData }: HeroSectionProps) {
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0">
                 {t('description')}
                 <span className="text-foreground font-semibold">
+                  {' '}
                   {t('descriptionHighlight')}
                 </span>{' '}
                 {t('descriptionContinue')}

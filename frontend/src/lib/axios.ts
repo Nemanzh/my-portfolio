@@ -3,7 +3,6 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { toast } from 'sonner';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 declare module 'axios' {
@@ -29,6 +28,22 @@ let activeRequests = 0;
 const setLoading = (isLoading: boolean) => {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent('api-loading', { detail: isLoading }));
+  }
+};
+
+const showToast = (message: string, type: 'error' | 'success' = 'error') => {
+  if (typeof window !== 'undefined') {
+    import('sonner')
+      .then(({ toast }) => {
+        if (type === 'error') {
+          toast.error(message);
+        } else {
+          toast.success(message);
+        }
+      })
+      .catch(() => {
+        console.log(`Toast ${type}:`, message);
+      });
   }
 };
 
@@ -106,7 +121,7 @@ api.interceptors.response.use(
     const originalRequest = error.config as InternalAxiosRequestConfig;
 
     if (error.code === 'ECONNABORTED') {
-      toast.error('Request timeout. Please check your connection.');
+      showToast('Request timeout. Please check your connection.');
       console.error('⏰ Request timeout:', error.config?.url);
     } else if (error.response?.status === 404) {
       console.warn('🔍 Resource not found:', error.config?.url);
@@ -119,7 +134,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       }
     } else if (error.response?.status === 500) {
-      toast.error('Server error. Please try again later.');
+      showToast('Server error. Please try again later.');
       console.error('💥 Server error:', error.response.data);
     } else if (
       error.response?.status &&
@@ -128,13 +143,13 @@ api.interceptors.response.use(
     ) {
       const data = error.response.data as ErrorResponseData;
       const message = data?.message || 'Something went wrong';
-      toast.error(message);
+      showToast(message);
       console.error('❌ Client error:', error.response.data);
     } else if (typeof navigator !== 'undefined' && !navigator.onLine) {
-      toast.error('No internet connection. Please check your network.');
+      showToast('No internet connection. Please check your network.');
       console.error('🌐 Network offline');
     } else {
-      toast.error('Network error. Please try again.');
+      showToast('Network error. Please try again.');
       console.error('🚨 Unknown error:', error);
     }
 
