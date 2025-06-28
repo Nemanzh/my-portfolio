@@ -1,34 +1,49 @@
-import { getExperience } from '@/lib/api';
-import type { Experience } from '@/types/experience';
+import { getTranslations } from 'next-intl/server';
+import { SectionHeader } from './section-header';
+import { ExperienceCard } from './experience-card';
 import { formatDate } from '@/lib/utils';
-import { ExperienceCard } from '@/components/experience-card';
-import { SectionHeader } from '@/components/section-header';
+import { Experience } from '@/types/experience';
 
-export default async function ExperienceSection() {
-  const experienceList: Experience[] = await getExperience();
+interface ExperienceSectionProps {
+  experienceData?: Experience[];
+}
+export default async function ExperienceSection({
+  experienceData,
+}: ExperienceSectionProps) {
+  const t = await getTranslations('experience');
 
-  if (!experienceList || experienceList.length === 0) {
+  if (!experienceData || experienceData.length === 0) {
     return (
       <section id="experience" className="max-w-3xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold mb-8">Experience</h2>
-        <p className="text-muted-foreground">
-          No experience information available.
-        </p>
+        <h2 className="text-3xl font-bold mb-8">{t('title')}</h2>
+        <p className="text-muted-foreground">{t('noExperience')}</p>
       </section>
     );
   }
 
   return (
     <section id="experience" className="max-w-3xl mx-auto py-12 px-4">
-      <SectionHeader title="Experience" subtitle="My professional journey" />
+      <SectionHeader title={t('title')} subtitle={t('subtitle')} />
       <div className="space-y-6">
-        {experienceList.map((experience, id) => (
+        {experienceData?.map((experience, id) => (
           <ExperienceCard
             key={`${experience.company}-${id}`}
             company={experience.company}
             role={experience.role}
-            startDate={formatDate(experience.start_date)}
-            endDate={formatDate(experience.end_date)}
+            startDate={formatDate(
+              typeof experience?.start_date === 'string'
+                ? experience.start_date
+                : experience?.start_date
+                ? experience.start_date.toISOString()
+                : ''
+            )}
+            endDate={formatDate(
+              typeof experience?.end_date === 'string'
+                ? experience.end_date
+                : experience?.end_date
+                ? experience.end_date.toISOString()
+                : ''
+            )}
             description={experience.description}
             link={experience.link}
             companyLogoUrl={

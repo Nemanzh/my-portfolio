@@ -7,6 +7,8 @@ import { ExternalLink, Building2, ChevronRight } from 'lucide-react';
 import { parseRichTextToElements } from '@/lib/richtext-parser';
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { LocalizedDate } from '@/components/localized-date';
+import { useTranslations } from 'next-intl';
 
 type RichTextNode = {
   type: string;
@@ -32,6 +34,7 @@ export const ExperienceCard = ({
   link,
   companyLogoUrl,
 }: ExperienceCardProps) => {
+  const t = useTranslations('experienceCard');
   const [isExpanded, setIsExpanded] = useState(false);
 
   const descriptionElements = parseRichTextToElements(
@@ -39,7 +42,6 @@ export const ExperienceCard = ({
     'text-muted-foreground leading-relaxed'
   );
 
-  const dateRange = `${startDate} - ${endDate || 'Present'}`;
   const hasDescription = descriptionElements.length > 0;
 
   return (
@@ -110,9 +112,10 @@ export const ExperienceCard = ({
             className="w-full flex flex-col items-center gap-2 mb-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
           >
             <p className="text-primary font-medium text-lg">{role}</p>
-            <span className="text-sm text-muted-foreground font-medium">
-              {dateRange}
-            </span>
+            <div className="text-sm text-muted-foreground">
+              <LocalizedDate dateString={startDate} /> -{' '}
+              <LocalizedDate dateString={endDate || ''} isEndDate={true} />
+            </div>
           </motion.div>
 
           {hasDescription && (
@@ -135,7 +138,7 @@ export const ExperienceCard = ({
                   <ChevronRight className="h-4 w-4" />
                 </motion.div>
                 <span className="group-hover:underline">
-                  {isExpanded ? 'Hide details' : 'Show details'}
+                  {isExpanded ? t('hideDetails') : t('showDetails')}
                 </span>
               </motion.button>
             </motion.div>
